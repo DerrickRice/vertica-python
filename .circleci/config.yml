@@ -29,7 +29,7 @@ jobs:
       - run:
           name: "Create venv and install dependencies"
           command: |
-            python -m venv _venv
+            python -m ${VENV_MODULE:-venv} _venv
             source ./_venv/bin/activate
             pip install -r ./.circleci/requires.txt
 
@@ -43,7 +43,7 @@ jobs:
           command: |
             source ./_venv/bin/activate
             mkdir -p ./_test_results/unit_tests/
-            python -m nosetests \
+            python -m nose \
               --with-xunit --xunit-file ./_test_results/unit_tests/results.xml \
               vertica_python.tests -a unit_tests
       - store_test_results:
@@ -54,6 +54,8 @@ jobs:
     <<: *base-test
     docker:
       - image: circleci/python:2.7
+        environment:
+          VENV_MODULE: virtualenv
   test-py34:
     <<: *base-test
     docker:
