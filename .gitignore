@@ -45,8 +45,10 @@ nosetests.xml
 # pycharm
 .idea
 
-# default virtual environment
+# virtual environments and test results
 /env/
+_venv
+_test_results
 
 # pyenv
 .python-version
