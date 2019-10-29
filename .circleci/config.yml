@@ -24,7 +24,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "./.circleci/requires.txt" }}
+            - v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "./.circleci/requires.txt" }}
 
       - run:
           name: "Create venv and install dependencies"
@@ -36,7 +36,7 @@ jobs:
       - save_cache:
           paths:
             - ./_venv
-          key: v1-dependencies-{{ checksum "./.circleci/requires.txt" }}
+          key: v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "./.circleci/requires.txt" }}
 
       - run:
           name: "Run unit tests (nose)"
