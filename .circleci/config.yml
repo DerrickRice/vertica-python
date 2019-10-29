@@ -39,13 +39,15 @@ jobs:
           key: v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "./.circleci/requires.txt" }}
 
       - run:
-          name: "Run unit tests (nose)"
+          name: "Run unit tests"
           command: |
             source ./_venv/bin/activate
             mkdir -p ./_test_results/unit_tests/
-            python -m nose \
-              --with-xunit --xunit-file ./_test_results/unit_tests/results.xml \
-              vertica_python.tests -a unit_tests
+            python -m pytest \
+              vertica_python/tests \
+              . -m unit_test \
+              --junitxml ./_test_results/unit_tests/results.xml
+
       - store_test_results:
           path: ./_test_results
 
